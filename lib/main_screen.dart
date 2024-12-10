@@ -80,14 +80,14 @@ class _MainScreenState extends State<MainScreen> {
                       child: Column(
                         children: [
                           Image.network(
-                            stores[index]['image'],
+                            stores[index]['image']!,
                             height: 100,
                             width: 100,
                             fit: BoxFit.cover,
                           ),
                           SizedBox(height: 5),
                           Text(
-                            stores[index]['name'],
+                            stores[index]['name']!,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -112,13 +112,13 @@ class _MainScreenState extends State<MainScreen> {
                     child: Column(
                       children: [
                         Image.network(
-                          products[index]['image'],
+                          products[index]['image']!,
                           height: 70,
                           fit: BoxFit.cover,
                         ),
                         SizedBox(height: 5),
                         Text(
-                          products[index]['name'],
+                          products[index]['name']!,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -134,19 +134,19 @@ class _MainScreenState extends State<MainScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home, color: Colors.black),
-            title: Text('Home'),
+              label:'home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.store, color: Colors.black),
-            title: Text('Stores'),
+            label:'Stores',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_basket, color: Colors.black),
-            title: Text('Products'),
+            label:'Products',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite, color: Colors.black),
-            title: Text('Favorites'),
+            label:'Favorites',
           ),
         ],
         backgroundColor: Color(0xFFFFF950),
