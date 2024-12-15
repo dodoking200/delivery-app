@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class RegisterScreen extends StatefulWidget {
 
@@ -10,7 +12,52 @@ class RegisterScreen extends StatefulWidget {
 }
 final _formKey = GlobalKey<FormState>();
 class _RegisterScreenState extends State<RegisterScreen> {
-  File _selectedImage;
+  Future<void> sendPostRequest() async {
+    // Define the URL of your API
+    final url = Uri.parse('http://192.168.201.103:8000/api/register');
+
+    // Define the headers
+    final headers = {
+      'Content-Type': 'application/json', // Ensures you're sending JSON
+      'Authorization': 'Bearer your_token_here', // Replace with your actual token
+    };
+
+    // Define the body (if you're sending data)
+    final body = jsonEncode({
+      'first_name': firstController.text,
+      'last_name': lastController.text,
+      'location': locationController.text,
+      'image': "",
+      'mobile_number': phoneController.text,
+      'password': passwordController.text,
+    });
+    print(body);
+    try {
+      // Send POST request
+      final response = await http.post(
+        url,
+        headers: headers,
+        body: body,
+      );
+
+      // Check the response
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print('Success: ${response.body}');
+      } else {
+        print('Failed with status: ${response.statusCode}');
+        print('Response: ${response.body}');
+      }
+    } catch (e) {
+      print('Error occurred: $e');
+    }
+  }
+  final firstController = TextEditingController();
+  final lastController = TextEditingController();
+  final phoneController = TextEditingController();
+  final locationController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  File? _selectedImage;
 
 Future<void> _pickImage() async {
   final result = await FilePicker.platform.pickFiles(
@@ -19,7 +66,7 @@ Future<void> _pickImage() async {
 
   if (result != null && result.files.single.path != null) {
     setState(() {
-      _selectedImage = File(result.files.single.path); // this part isn't working , it supposed to put the selected image in the image avatar
+      _selectedImage = File(result.files.single.path!); // this part isn't working , it supposed to put the selected image in the image avatar
     });
   }
 }
@@ -47,6 +94,7 @@ Future<void> _pickImage() async {
                     height: 30.0,
                   ),
                   TextFormField(
+                    controller: firstController,
                     keyboardType: TextInputType.text,
                     textAlign: TextAlign.center,
 
@@ -54,8 +102,8 @@ Future<void> _pickImage() async {
                       fontSize: 20.0,
                       color: Colors.black,
                     ),
-                    validator: (String value) {
-                      if (value.isEmpty) {
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
                         return 'Name is required';
                       } else if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
                         return 'Name must contain only letters and spaces';
@@ -72,7 +120,7 @@ Future<void> _pickImage() async {
                         borderSide: BorderSide(color: Colors.green, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(16.0)),
                       ),
-                      hintText: 'Full name',
+                      hintText: 'First name',
                       hintStyle: TextStyle(
                         fontSize: 20.0,
                         color: Colors.grey,
@@ -84,6 +132,45 @@ Future<void> _pickImage() async {
                     height: 30.0,
                   ),
                   TextFormField(
+                    controller: lastController,
+                    keyboardType: TextInputType.text,
+                    textAlign: TextAlign.center,
+
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.black,
+                    ),
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Name is required';
+                      } else if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                        return 'Name must contain only letters and spaces';
+                      }
+                      return null; // Return null if validation passes
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Color(0xFFA4FDAA),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                      ),
+                      hintText: 'Last name',
+                      hintStyle: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.grey,
+                        letterSpacing: 2.0,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  TextFormField(
+                    controller: phoneController,
                     maxLength: 10,
                     keyboardType: TextInputType.phone,
                     textAlign: TextAlign.center,
@@ -91,8 +178,8 @@ Future<void> _pickImage() async {
                       fontSize: 20.0,
                       color: Colors.black,
                     ),
-                    validator: (String value) {
-                      if (value.isEmpty) {
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
                         return 'Phone number is required';
                       } else if (value.length != 10) {
                         return 'Phone number should be 10 digits';
@@ -123,10 +210,11 @@ Future<void> _pickImage() async {
                     height: 7.0,
                   ),
                   TextFormField(
+                    controller: locationController,
                     keyboardType: TextInputType.text,
                     textAlign: TextAlign.center,
-                    validator: (String value) {
-                      if (value.isEmpty) {
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
                         return 'Location is required';
                       }
                       return null; // Return null if validation passes
@@ -157,10 +245,11 @@ Future<void> _pickImage() async {
                     height: 30.0,
                   ),
                   TextFormField(
+                    controller: passwordController,
                     keyboardType: TextInputType.text,
                     textAlign: TextAlign.center,
-                    validator: (String value) {
-                      if (value.isEmpty) {
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
                         return 'Password is required';
                       } else if (value.length < 8) {
                         return 'Password must be at least 8 characters long';
@@ -202,8 +291,8 @@ Future<void> _pickImage() async {
                           'Submit'
                       ),
                       onPressed: (){
-                        if (_formKey.currentState.validate()) {
-
+                        if (_formKey.currentState!.validate()) {
+                          sendPostRequest();
                         }
                       },
                     ),
@@ -238,7 +327,7 @@ Future<void> _pickImage() async {
             )
                 : ClipOval(
               child: Image.file(
-                _selectedImage,
+                _selectedImage!,
                 width: 200,  // Width of the avatar
                 height: 200,  // Height of the avatar
                 fit: BoxFit.cover,  // Ensures the image fits inside the circle
