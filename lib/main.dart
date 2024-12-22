@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterproject/main_screen.dart';
 
+import 'Stores_Screen.dart';
 import 'login_screen.dart';
 
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginScreen(),
+      home: MainScreen(),
     );
   }
 }

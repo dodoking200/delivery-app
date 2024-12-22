@@ -6,11 +6,14 @@ import 'package:http/http.dart' as http;
 final _formKey = GlobalKey<FormState>();
 
 class LoginScreen extends StatefulWidget {
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
+
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool _obscureText = true;
   Future<void> sendPostRequest() async {
     // Define the URL of your API
     final url = Uri.parse('http://192.168.201.103:8000/api/login');
@@ -64,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(60.0),
+          padding: const EdgeInsets.fromLTRB(20.0,40.0,20.0,40.0),
           child: Form(
             key: _formKey,  // Use the form key here
             child: Column(
@@ -120,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 TextFormField(
                   controller: passwordController,
-                  obscureText: true,
+                  obscureText: _obscureText,
                   keyboardType: TextInputType.text,
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -151,21 +154,37 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Colors.grey,
                       letterSpacing: 2.0,
                     ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        Icons.visibility ,
+                        color: _obscureText ? Colors.grey : Colors.green,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                          print(_obscureText);
+                        });
+                      },
+                    ),
                   ),
+
                 ),
                 SizedBox(
                   height: 30.0,
                 ),
                 Container(
                   height: 40.0,
-                  color: Colors.blue,
+
                   width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                  ),
                   child: MaterialButton(
                     child: Text('Sign in'),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         sendPostRequest();
-                        print("llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
                       }
                     },
                   ),
@@ -196,7 +215,8 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        child: Container(height: 50.0, color: Color(0xFFFFF950)),
+        color: Color(0xFFFFF950),
+        child: Container(height: 50.0, ),
       ),
     );
   }

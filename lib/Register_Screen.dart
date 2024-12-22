@@ -59,17 +59,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   File? _selectedImage;
 
-Future<void> _pickImage() async {
-  final result = await FilePicker.platform.pickFiles(
-    type: FileType.image,
-  );
+  Future<void> _pickImage() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
 
-  if (result != null && result.files.single.path != null) {
-    setState(() {
-      _selectedImage = File(result.files.single.path!); // this part isn't working , it supposed to put the selected image in the image avatar
-    });
+    if (result != null && result.files.single.path != null) {
+      setState(() {
+        _selectedImage = File(result.files.single.path!);
+      });
+      print("Image Path: ${_selectedImage!.path}"); // Debugging statement
+    } else {
+      print("No image selected");
+    }
   }
-}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,13 +87,13 @@ Future<void> _pickImage() async {
               )),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(60.0),
+          padding: const EdgeInsets.fromLTRB(20.0,40.0,20.0,40.0),
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
               child: Column(
                 children: [
-                  imageProfile(),
+                  // imageProfile(),
                   SizedBox(
                     height: 30.0,
                   ),
@@ -283,8 +287,10 @@ Future<void> _pickImage() async {
                   ),
                   Container(
                     height: 40.0,
-                    color: Colors.blue,
                     width: double.infinity,
+                    decoration: BoxDecoration(color: Colors.blue,
+                      borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                    ),
                     child: MaterialButton(
 
                       child: Text(
@@ -304,41 +310,49 @@ Future<void> _pickImage() async {
         ),
 
         bottomNavigationBar: BottomAppBar(
-          child: Container(height: 50.0, color: Color(0xFFFFF950)),
+          color: Color(0xFFFFF950),
+          child: Container(height: 50.0, ),
         ));
 
   }
   Widget imageProfile() {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: _pickImage,  // Trigger image picking when tapped
-            child: _selectedImage == null
-                ? CircleAvatar(
-              radius: 100,  // Size of the circle
-              backgroundColor: Color(0xFFA4FDAA),  // Green background
-              child: Icon(
-                Icons.person,  // Icon when no image is selected
-                size: 60,  // Icon size
-                color: Colors.white,  // Icon color
-              ),
-            )
-                : ClipOval(
-              child: Image.file(
-                _selectedImage!,
-                width: 200,  // Width of the avatar
-                height: 200,  // Height of the avatar
-                fit: BoxFit.cover,  // Ensures the image fits inside the circle
-              ),
+      child: GestureDetector(
+        onTap: _pickImage, // Trigger image picking when tapped
+        child: Container(
+          width: 210, // Circle container width
+          height: 210, // Circle container height
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: Colors.black, // Border color
+              width: 1.0, // Border width
             ),
           ),
-          SizedBox(height: 20),
-        ],
+          child: _selectedImage == null
+              ? CircleAvatar(
+            radius: 100, // CircleAvatar size
+            backgroundColor: Color(0xFFA4FDAA), // Green background
+            child: Icon(
+              Icons.person, // Default icon when no image is selected
+              size: 100, // Icon size
+              color: Colors.white, // Icon color
+            ),
+          )
+              : ClipOval(
+            child: Image.file(
+              _selectedImage!, // Ensure the selected file is loaded
+              width: 210, // Image width matches container
+              height: 210, // Image height matches container
+              fit: BoxFit.cover, // Ensures image covers the circle
+            ),
+          ),
+        ),
       ),
     );
   }
+
+
 
 
 
