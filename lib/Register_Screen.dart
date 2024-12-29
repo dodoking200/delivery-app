@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import 'main_screen.dart';
+
 class RegisterScreen extends StatefulWidget {
 
   @override
@@ -14,7 +16,7 @@ final _formKey = GlobalKey<FormState>();
 class _RegisterScreenState extends State<RegisterScreen> {
   Future<void> sendPostRequest() async {
     // Define the URL of your API
-    final url = Uri.parse('http://192.168.201.103:8000/api/register');
+    final url = Uri.parse('http://172.20.10.4:8000/api/register');
 
     // Define the headers
     final headers = {
@@ -42,6 +44,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       // Check the response
       if (response.statusCode == 200 || response.statusCode == 201) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => MainScreen()),
+              (Route<dynamic> route) => false,
+        );
         print('Success: ${response.body}');
       } else {
         print('Failed with status: ${response.statusCode}');

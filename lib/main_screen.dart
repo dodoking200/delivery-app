@@ -17,36 +17,36 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   // Sample data for stores and products
-  final List<Map<String, String>> stores = [
-    {'name': 'Store 1', 'image': 'https://via.placeholder.com/150'},
-    {'name': 'Store 2', 'image': 'https://via.placeholder.com/150'},
-    {'name': 'Store 3', 'image': 'https://via.placeholder.com/150'},
-    {'name': 'Store 4', 'image': 'https://via.placeholder.com/150'},
-    {'name': 'Store 5', 'image': 'https://via.placeholder.com/150'},
-    {'name': 'Store 6', 'image': 'https://via.placeholder.com/150'},
-    {'name': 'Store 7', 'image': 'https://via.placeholder.com/150'},
-    {'name': 'Store 8', 'image': 'https://via.placeholder.com/150'},
-    {'name': 'Store 9', 'image': 'https://via.placeholder.com/150'},
-  ];
-
-  final List<Map<String, String>> products = [
-    {'name': 'Product 1', 'image': 'https://via.placeholder.com/100'},
-    {'name': 'Product 2', 'image': 'https://via.placeholder.com/100'},
-    {'name': 'Product 3', 'image': 'https://via.placeholder.com/100'},
-    {'name': 'Product 4', 'image': 'https://via.placeholder.com/100'},
-    {'name': 'Product 5', 'image': 'https://via.placeholder.com/100'},
-    {'name': 'Product 6', 'image': 'https://via.placeholder.com/100'},
-    {'name': 'Product 7', 'image': 'https://via.placeholder.com/100'},
-    {'name': 'Product 8', 'image': 'https://via.placeholder.com/100'},
-    {'name': 'Product 9', 'image': 'https://via.placeholder.com/100'},
-    {'name': 'Product 10', 'image': 'https://via.placeholder.com/100'},
-    {'name': 'Product 11', 'image': 'https://via.placeholder.com/100'},
-    {'name': 'Product 12', 'image': 'https://via.placeholder.com/100'},
-  ];
+  // final List<Map<String, String>> stores = [
+  //   {'name': 'Store 1', 'image': 'https://via.placeholder.com/150'},
+  //   {'name': 'Store 2', 'image': 'https://via.placeholder.com/150'},
+  //   {'name': 'Store 3', 'image': 'https://via.placeholder.com/150'},
+  //   {'name': 'Store 4', 'image': 'https://via.placeholder.com/150'},
+  //   {'name': 'Store 5', 'image': 'https://via.placeholder.com/150'},
+  //   {'name': 'Store 6', 'image': 'https://via.placeholder.com/150'},
+  //   {'name': 'Store 7', 'image': 'https://via.placeholder.com/150'},
+  //   {'name': 'Store 8', 'image': 'https://via.placeholder.com/150'},
+  //   {'name': 'Store 9', 'image': 'https://via.placeholder.com/150'},
+  // ];
+  //
+  // final List<Map<String, String>> products = [
+  //   {'name': 'Product 1', 'image': 'https://via.placeholder.com/100'},
+  //   {'name': 'Product 2', 'image': 'https://via.placeholder.com/100'},
+  //   {'name': 'Product 3', 'image': 'https://via.placeholder.com/100'},
+  //   {'name': 'Product 4', 'image': 'https://via.placeholder.com/100'},
+  //   {'name': 'Product 5', 'image': 'https://via.placeholder.com/100'},
+  //   {'name': 'Product 6', 'image': 'https://via.placeholder.com/100'},
+  //   {'name': 'Product 7', 'image': 'https://via.placeholder.com/100'},
+  //   {'name': 'Product 8', 'image': 'https://via.placeholder.com/100'},
+  //   {'name': 'Product 9', 'image': 'https://via.placeholder.com/100'},
+  //   {'name': 'Product 10', 'image': 'https://via.placeholder.com/100'},
+  //   {'name': 'Product 11', 'image': 'https://via.placeholder.com/100'},
+  //   {'name': 'Product 12', 'image': 'https://via.placeholder.com/100'},
+  // ];
   // List<dynamic> products = []; // Assuming the API returns a list of products
   // List<dynamic> stores = []; // Assuming the API returns a list of products
   // Future<void> fetchData() async {
-  //   final response = await http.get(Uri.parse('http://192.168.201.103:8000/api/products'));
+  //   final response = await http.get(Uri.parse('http://172.20.10.4:8000/api/products'));
   //
   //   if (response.statusCode == 200) {
   //     // Decode JSON response into a Map or List
@@ -61,7 +61,7 @@ class _MainScreenState extends State<MainScreen> {
   //   }
   // }
   // Future<void> fetchData2() async {
-  //   final response = await http.get(Uri.parse('http://192.168.201.103:8000/api/stores'));
+  //   final response = await http.get(Uri.parse('http://172.20.10.4:8000/api/stores'));
   //
   //   if (response.statusCode == 200) {
   //     // Decode JSON response into a Map or List
@@ -81,7 +81,7 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
   List<Widget> screens = [
-    homeScreen(),
+    HomeScreen(),
     storesScreen(),
     ProductScreen(),
     FavoritesScreen(),
